@@ -96,6 +96,8 @@ problem_solve_1:    // DELTA = 0
 {         float answer_1;
          answer_1 = -(float)b / 2*a;
          pf("the first and second root is x(1) = x(2) = %.2f",answer_1);
+	 getch();
+	 return 0;
 }
 problem_solve_2:   // DELTA = complex number
 {
