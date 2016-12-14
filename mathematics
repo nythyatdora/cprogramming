@@ -1,0 +1,129 @@
+//PROCESSOR DIRECTIVE
+                                                                   //  01000100 01001111 01010010 01000001 00001101 00001010  //
+#include<stdio.h>                                                  //                                                         //
+#include<conio.h>                                                  //      dMMMMb  .aMMMb  dMMMMb  .aMMMb     .aMMMb          //
+#include<math.h>                                                   //     dMP VMP dMP"dMP dMP.dMP dMP"dMP    dMP"VMP     |    //
+#define pf printf                                                  //    dMP dMP dMP dMP dMMMMK" dMMMMMP    dMP       _   _|  //
+int main()                                                         //   dMP.aMP dMP.aMP dMP"AMF dMP dMP    dMP.aMP      _|    //
+{                                                                  //  dMMMMP"  VMMMP" dMP dMP dMP dMP     VMMMP"             //
+      //       SECOND DEGRESS EQUALATION                           //                                                         //
+      //           ax^2 + bx + c = 0                               //  01000100 01001111 01010010 01000001 00001101 00001010  //
+      //       s = a*pow(x,2)+ b*x + c;
+
+		pf("===========FIND ROOT OF X===========\n");
+      pf("| delta  =  b^2 - 4*a*c            |\n");
+      pf("|   x(1) = -b + sqrt(delta) / 2*a  |\n");
+      pf("|   x(2) = -b - sqrt(delta) / 2*a  |\n");
+      pf("===============================================================\n");
+      pf("|  instruction: input the value of a,b,c which must be a # 0  |\n");
+      pf("===============================================================\n");
+
+//    DECLARATION
+//    FORMULAS
+      int line;
+      long a,b,c,b_square,delta,delta_i;
+		float x2_1,x2_2;
+       line =  wherey();
+
+//    INPUT
+
+  input_a :
+                  gotoxy(1,line);
+						pf("  a :           ");  //LOOPING INPUT VALUE OF A AGAIN WITHOUT RUIN B,C
+                  gotoxy(7,line);
+                  scanf("%ld",&a);
+//    A # 0
+//    IF SO INPUT THE VALUE OF A AGAIN
+      if(a==0)
+      		goto input_a;
+      else
+      		goto input_b;
+
+	input_b :      pf("  b : "); scanf("%ld",&b);
+/*  input_c :*/   pf("  c : "); scanf("%ld",&c);
+
+//SPECIAL EQUALTATION METHOD
+
+special_method :
+
+      x2_1 =  c/(float)a;
+      x2_2 = -c/(float)a;
+
+      if(a+b+c == 0)
+      	{
+         pf("the first root is x(1)= 1 \nthe second root is x(2)= %.2f",x2_1);
+         getch();
+			return 0;
+         }
+      else
+			goto special_method_2;
+
+special_method_2:
+
+      if(b == a-c)
+      	{
+      	pf("the first root is x(1)= -1 \nthe second root is x(2)= %.2f",x2_2);
+         getch();
+         return 0;
+         }
+      else
+          goto delta_method;
+
+//DELTA METHOD
+
+delta_method:
+
+      b_square =  pow(b,2);
+
+      if(b_square == 4*a*c)
+         {
+         pf("roots have two ,but the same number.\n");
+         goto problem_solve_1;
+         }
+         	else if(b_square < 4*a*c)
+                  {
+                  pf("roots have two complex numbers.\n");
+                  goto problem_solve_2;
+                  }
+      else
+         {
+			pf("roots have two different float or (un)natural numbers.\n");
+         goto problem_solve_3;
+         }
+
+problem_solve_1:    // DELTA = 0
+
+{         float answer_1;
+         answer_1 = -(float)b / 2*a;
+         pf("the first and second root is x(1) = x(2) = %.2f",answer_1);
+}
+problem_solve_2:   // DELTA = complex number
+{
+              float sqrt_delta_i,p_true_1,p_false_1,p_true_2,p_false_2;
+//			     delta =  pow(b,2) - 4*a*c;
+	         delta_i = (-1)*(pow(b,2) - 4*a*c);
+       sqrt_delta_i =  sqrt(delta_i);
+           p_true_1 =  -b / (float)2*a;
+          p_false_1 =  sqrt_delta_i / (float)2*a ;
+           p_true_2 =  -b / (float)2*a;
+          p_false_2 =  (-1)*(sqrt_delta_i) / (float)2*a ;
+
+				pf("the first root is x(1)= %.2f + %.2f i \nthe second root is x(2)= %.2f - %.2f i",p_true_1,p_false_1,p_true_2,p_false_2);
+            getch();
+            return 0;
+}
+
+problem_solve_3:   // POSITIVE DELTA
+{
+              float sqrt_delta,x_problem_solve_3_1,x_problem_solve_3_2;
+              delta =  pow(b,2) - 4*a*c;
+         sqrt_delta =  sqrt(delta);
+x_problem_solve_3_1 =  -b / (float)(2*a + sqrt_delta) / 2*a ;
+x_problem_solve_3_2 =  -b / (float)(2*a - sqrt_delta) / 2*a ;
+
+				pf("the first root is x(1)= %.2f \nthe second root is x(2)= %.2f",x_problem_solve_3_1,x_problem_solve_3_2);
+}
+
+      getch();
+      return 0;
+}
