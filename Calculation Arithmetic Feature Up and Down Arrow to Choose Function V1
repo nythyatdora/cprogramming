@@ -1,0 +1,124 @@
+                                    //  01000100 01001111 01010010 01000001 00001101 00001010  //
+                                    //                                                         //
+                                    //      dMMMMb  .aMMMb  dMMMMb  .aMMMb     .aMMMb          //
+                                    //     dMP VMP dMP"dMP dMP.dMP dMP"dMP    dMP"VMP     |    //
+                                    //    dMP dMP dMP dMP dMMMMK" dMMMMMP    dMP       _   _|  //
+                                    //   dMP.aMP dMP.aMP dMP"AMF dMP dMP    dMP.aMP      _|    //
+                                    //  dMMMMP"  VMMMP" dMP dMP dMP dMP     VMMMP"             //
+                                    //                                    ALLRIGHTS RESERVED © //
+                                    //  01000100 01001111 01010010 01000001 00001101 00001010  //
+
+//HEADERFILE OR PERPROCESSOR DIRECTOVE
+#include<stdio.h>
+#include<conio.h>
+//#include<ctype.h>
+#include<process.h>
+#include<math.h>
+#define pf printf
+
+
+int main(void)
+{
+      //DECLARATION
+
+      int item=1;
+      long a,b;
+      double c;
+      //INTERFACE
+REPEAT_INPUT_A:
+      pf("INPUT A: ");
+      scanf("%ld",&a);
+REPEAT_INPUT_B:
+      pf("INPUT B: ");
+      scanf("%ld",&b);
+      c=pow(a,b);
+A:
+		clrscr();
+//        0000000001111111111222222222233333333334444444444
+//        1234567890123456789012345678901234567890123456789
+      pf("INPUT A: %ld\n",a);                                     // 1
+      pf("INPUT B: %ld\n",b);                                     // 2
+                                                                  // 3
+      pf("\nINSTRUCTION\n");                                      // 4
+      pf(" ____\n");                                              // 5
+      pf("|    | : ADDITION\n");                                  // 6
+      pf("|    | : SUBTRACTION\n");                               // 7
+      pf("|    | : MULTIPLICATION\n");                            // 8
+      pf("|    | : DIVISION\n");                                  // 9
+      pf("|    | : A RAISED TO THE POWER OF B\n");                // 10
+      pf("|    | : REPEAT INPUT A\n");                            // 11
+      pf("|    | : REPEAT INPUT B\n");                            // 12
+      pf("|____| : EXIT");                                        // 13
+      gotoxy(3,5+item);
+      pf("->");
+      _setcursortype(_NOCURSOR);
+      //INPUT
+
+      //PROCESS
+      switch(getch())
+      {
+      		case 72: if(--item<1)
+            			item=8;
+                     break;
+            case 80: if(++item>8)
+            			item=1;
+                     break;
+            case 77:
+      switch(item)
+      {
+      		case 1:  gotoxy(18,6); pf("---------------------->(A + B = RESUlT)");  getch(); break;
+            case 2:  gotoxy(21,7); pf("------------------->(A - B = RESUlT)");  getch(); break;
+            case 3:  gotoxy(24,8); pf("---------------->(A * B = RESUlT)");  getch(); break;
+            case 4:  gotoxy(18,9); pf("---------------------->(A / B = RESUlT)");  getch(); break;
+            case 5:  gotoxy(36,10); pf("---->(A ^ B = RESUlT)"); getch(); break;
+            case 6:  gotoxy(24,11); pf("----------------/");
+            			gotoxy(40,10); pf("|");
+                     gotoxy(40,9); pf("|");
+                     gotoxy(40,8); pf("|");
+                     gotoxy(40,7); pf("|");
+                     gotoxy(40,6); pf("|");
+                     gotoxy(40,5); pf("|");
+                     gotoxy(40,4); pf("|");
+                     gotoxy(40,3); pf("|");
+                     gotoxy(40,2); pf("|");
+                     gotoxy(30,1); pf("<---------%c",92);
+                     gotoxy(12,1); pf("(INPUT HERE AGAIN)");
+                     getch(); break;
+            case 7:
+                     gotoxy(24,12); pf("----------------/");
+                     gotoxy(40,11); pf("|");
+            			gotoxy(40,10); pf("|");
+                     gotoxy(40,9); pf("|");
+                     gotoxy(40,8); pf("|");
+                     gotoxy(40,7); pf("|");
+                     gotoxy(40,6); pf("|");
+                     gotoxy(40,5); pf("|");
+                     gotoxy(40,4); pf("|");
+                     gotoxy(40,3); pf("|");
+                     gotoxy(30,2); pf("<---------%c",92);
+                     gotoxy(12,2); pf("(INPUT HERE AGAIN)"); getch(); break;
+            case 8:  gotoxy(14,13); pf("-------------------------->(CLOSE THIS APPICATION)"); getch(); break;
+      }     break;
+            case 13: clrscr();
+      switch(item)
+            {
+            case 1:  gotoxy(10,6); pf("%ld + %ld = %ld",a,b,a+b); getch(); break;
+            case 2:  gotoxy(11,7); pf("%ld - %ld = %ld",a,b,a-b); getch(); break;
+ 		      case 3:  gotoxy(12,8); pf("%ld * %ld = %ld",a,b,a*b); getch(); break;
+            case 4:  gotoxy(13,9); pf("%ld / %ld = %.2f",a,b,a/(float)b); getch(); break;
+            case 5:  gotoxy(14,10); pf("%ld ^ %ld = %ld",a,b,c); getch(); break;
+            case 6:  gotoxy(1,2); pf("INPUT B: %ld\n",b); gotoxy(1,1); goto REPEAT_INPUT_A_ONLY;
+            REPEAT_INPUT_A_ONLY:
+            pf("INPUT A: ");
+            scanf("%ld",&a);
+            break;
+            case 7:  gotoxy(1,1); pf("INPUT A: %ld\n",a); goto REPEAT_INPUT_B; break;
+            case 8:  exit(0);
+            }
+
+      }
+
+      //OUTPUT
+      goto A;
+      return 0;
+}
