@@ -1,0 +1,86 @@
+#include<stdio.h>
+#include<conio.h>
+#define pf printf
+
+int main()
+  {
+    int n;
+    pf("input n: "); scanf("%d",&n);
+
+    int row,colon;
+    int number[10][10]={0};
+    int f_pos;
+    colon = 0; row = 0;
+    f_pos = n/2;
+    for(int count=1 ; count<=n*n ; count++)
+    {
+      if(count==1)
+      {
+        number[0][f_pos] = count;
+        colon = f_pos + 1;
+        row--;
+        continue;
+      }
+      else
+         {
+
+            if(row<0&&colon<n)
+            {
+              row = n - 1;
+              number[row][colon] = count;
+              row--;
+              colon++;
+              continue;
+            }
+
+            if(row>=0&&colon==n)
+            {
+              colon = colon - n;
+              number[row][colon] = count ;
+              row--, colon++;
+              continue;
+            }
+
+            /*
+            if(row>=0&&colon!=n)
+            {
+              // wrong condition
+            }
+            */
+
+            if(number[row][colon]!='\0')
+            {
+              row = row + 2;
+              colon--;
+              number[row][colon] = count ;
+              row--, colon++;
+              continue;
+            }
+
+            if(row<0&&colon==n)
+            {
+              row = row + 2;
+              colon--;
+              number[row][colon] = count ;
+              row--, colon++;
+              continue;
+            }
+
+            if(row>=0&&colon<n)
+            {
+              number[row][colon] = count ;
+              row--, colon++;
+              continue;
+            }
+         }
+    }
+
+    for(int i=0 ; i<n ; i++)
+    {
+     for(int j=0; j<n ; j++)
+      pf(" %2d ",number[i][j]);
+     pf("\n");
+    }
+    getch();
+    return 0;
+  }
