@@ -1,0 +1,864 @@
+
+//  01000100 01001111 01010010 01000001 00001101 00001010  //
+//                                                         //
+//      dMMMMb  .aMMMb  dMMMMb  .aMMMb     .aMMMb          //
+//     dMP VMP dMP"dMP dMP.dMP dMP"dMP    dMP"VMP     |    //
+//    dMP dMP dMP dMP dMMMMK" dMMMMMP    dMP       _   _|  //
+//   dMP.aMP dMP.aMP dMP"AMF dMP dMP    dMP.aMP      _|    //
+//  dMMMMP"  VMMMP" dMP dMP dMP dMP     VMMMP"             //
+//                                    ALLRIGHTS RESERVED © //  V2.5
+//  01000100 01001111 01010010 01000001 00001101 00001010  //  @2017
+
+/*  STUDENT INFO|SCORE: INPUT|ADD|DELETE|SEARCH|OUTPUT|INSERT */
+
+//HEADERFILE OR PERPROCESSOR DIRECTIVE
+
+#include<stdio.h>
+#include<conio.h>
+#include<process.h>
+#include<string.h>
+
+#define amount 20 //amount for how many people in array
+
+/*
+#include"gotoxy.h"
+#include"clrscr.h"
+*/
+
+#define pf printf
+
+void inpadd(int x,int n,int id[],char name[][amount],int salary[])
+{
+    int i;
+    for(i=x ; i<x+n ; i++)
+    {
+        pf("INPUT[%d]: \n",i+1);
+        pf("      |-> ID: ");
+        scanf("%d",&id[i]);
+
+        pf("      |-> NAME: ");
+        fflush(stdin);
+        gets(name[i]);
+
+        pf("      |-> SALARY: ");
+        scanf("%d",&salary[i]);
+        pf("\n");
+    }
+}
+
+void output(int x,int id[],char name[][amount],int salary[])
+{
+        for(int i=0 ; i<x ; i++)
+        {
+          gotoxy(8,6+i);
+          pf("%15d",id[i]);
+
+          gotoxy(31,6+i);
+          pf("%15s",name[i]);
+
+          gotoxy(54,6+i);
+          pf("%15d",salary[i]);
+
+          gotoxy(1,wherey()+1);
+          pf("|                      |                      |                      | \n");
+        }
+        gotoxy(1,wherey()-1);
+        pf("|______________________|______________________|______________________|\n");
+}
+
+void deletenumarr(int &x,int tmp[],int tmp2delete,int id[],char name[][amount],int salary[])
+{
+    for(int i=0; i<x ;i++)
+    {
+        if(tmp[i]==tmp2delete)
+        {
+           x--;
+           for(int j=i; j<x ; j++)
+           {
+              id[j] = id[j+1];
+              strcpy(name[j],name[j+1]);
+              salary[j] = salary[j+1];
+           }
+            i--;
+        }
+    }
+}
+
+void deletechar(int &x,char tmp[][amount],char tmp2delete[],int id[],char name[][amount],int salary[])
+{
+    for(int i=0; i<x ;i++)
+    {
+        if(strcmp(tmp[i],tmp2delete)==0)
+        {
+           x--;
+           for(int j=i; j<x ; j++)
+           {
+              id[j] = id[j+1];
+              strcpy(name[j],name[j+1]);
+              salary[j] = salary[j+1];
+           }
+            i--;
+        }
+    }
+}
+
+void updateid(int x,int id[],int id2search,char name[][amount],int salary[])
+{
+     for(int i=0; i<x ; i++)
+     {
+        if(id[i]==id2search)
+        {
+           pf(" [NAME: %s ]: ",name[i]);
+           if(getch()!=13)
+           {
+             fflush(stdin);
+             gets(name[i]);
+           }
+           else
+              {
+                 pf("\n");
+              }
+
+           pf(" [SALARY: %d ]: ",salary[i]);
+           if(getch()!=13)
+            scanf("%d",&salary[i]);
+            else
+             pf("\n");
+            break;
+        }
+     }
+
+}
+
+void updatename(int x,char name[][amount],char name2search[],int id[],int salary[])
+{
+    for(int i=0; i<x ; i++)
+    {
+       if(strcmp(name[i],name2search)==0)
+       {
+          pf(" [ID: %d ]: ",id[i]);
+          if(getch()!=13)
+            scanf("%d",&id[i]);
+          else
+            pf("\n");
+
+          pf(" [SALARY: %d ]: ",salary[i]);
+           if(getch()!=13)
+            scanf("%d",&salary[i]);
+            else
+             pf("\n");
+          break;
+       }
+    }
+}
+
+void updatesalary(int x,int salary[],int salary2search,int id[],char name[][amount])
+{
+    for(int i=0; i<x ; i++)
+    {
+       if(salary[i]==salary2search)
+       {
+          pf(" [ID: %d ]: ",id[i]);
+          if(getch()!=13)
+           scanf("%d",&id[i]);
+          else
+           pf("\n");
+
+          pf(" [NAME: %s ]: ",name[i]);
+           if(getch()!=13)
+           {
+             fflush(stdin);
+             gets(name[i]);
+           }
+           else
+            pf("\n");
+       }
+    }
+}
+    // global declartion for sort
+    int tmp_id;
+    char tmp_name[20];
+    int tmp_salary;
+
+void ascendsort_int(int x,int tmp[],int id[],char name[][amount],int salary[])
+{
+     for(int i=0; i<x-1 ; i++)
+     {
+        for(int j=i; j<x ; j++)
+        {
+           if(tmp[i]>tmp[j])
+           {
+              tmp_id = id[i];
+              id[i] = id[j];
+              id[j] = tmp_id;
+
+              strcpy(tmp_name,name[i]);
+              strcpy(name[i],name[j]);
+              strcpy(name[j],tmp_name);
+
+              tmp_salary = salary[i];
+              salary[i] = salary[j];
+              salary[j] = tmp_salary;
+
+           }
+        }
+     }
+}
+
+void ascendsort_char(int x,char tmp[][amount],int id[],char name[][amount],int salary[])
+{
+     for(int i=0; i<x-1 ; i++)
+     {
+        for(int j=i; j<x ; j++)
+        {
+           if(stricmp(tmp[i],tmp[j])>1)
+           {
+              tmp_id = id[i];
+              id[i] = id[j];
+              id[j] = tmp_id;
+
+              strcpy(tmp_name,name[i]);
+              strcpy(name[i],name[j]);
+              strcpy(name[j],tmp_name);
+
+              tmp_salary = salary[i];
+              salary[i] = salary[j];
+              salary[j] = tmp_salary;
+
+           }
+        }
+     }
+}
+
+void descendsort_int(int x,int tmp[],int id[],char name[][amount],int salary[])
+{
+     for(int i=0; i<x-1 ; i++)
+     {
+        for(int j=i; j<x ; j++)
+        {
+           if(tmp[i]<tmp[j])
+           {
+              tmp_id = id[i];
+              id[i] = id[j];
+              id[j] = tmp_id;
+
+              strcpy(tmp_name,name[i]);
+              strcpy(name[i],name[j]);
+              strcpy(name[j],tmp_name);
+
+              tmp_salary = salary[i];
+              salary[i] = salary[j];
+              salary[j] = tmp_salary;
+
+           }
+        }
+     }
+}
+
+void descendsort_char(int x,char tmp[][amount],int id[],char name[][amount],int salary[])
+{
+     for(int i=0; i<x-1 ; i++)
+     {
+        for(int j=i; j<x ; j++)
+        {
+           if(stricmp(tmp[i],tmp[j])<1)
+           {
+              tmp_id = id[i];
+              id[i] = id[j];
+              id[j] = tmp_id;
+
+              strcpy(tmp_name,name[i]);
+              strcpy(name[i],name[j]);
+              strcpy(name[j],tmp_name);
+
+              tmp_salary = salary[i];
+              salary[i] = salary[j];
+              salary[j] = tmp_salary;
+
+           }
+        }
+     }
+}
+
+void outputins(int x,int id[],char name[][amount],int salary[])
+{
+        for(int i=0 ; i<x ; i++)
+        {
+          gotoxy(8,6+i);
+          pf("%15d",id[i]);
+
+          gotoxy(31,6+i);
+          pf("%15s",name[i]);
+
+          gotoxy(54,6+i);
+          pf("%15d",salary[i]);
+
+          gotoxy(72,6+i);
+          pf("%3d",i+1);
+
+          gotoxy(1,wherey()+1);
+          pf("|                      |                      |                      |     |\n");
+        }
+       gotoxy(1,wherey()-1);
+       pf("|______________________|______________________|______________________|_____|\n");
+}
+
+void insert(int pos,int &x,int id[],int id2ins,char name[][amount],char name2ins[],int salary[],int salary2ins)
+{
+        if(pos>x)
+        {
+           id[x] = id2ins;
+           strcpy(name[x],name2ins);
+           salary[x] = salary2ins;
+           x++;
+        }
+        else
+           {
+             for(int j=x; j>=pos-1 ; j--)
+             {
+                id[j+1] = id[j];
+                strcpy(name[j+1],name[j]);
+                salary[j+1] = salary[j];
+             }
+             id[pos] = id2ins;
+             strcpy(name[pos],name2ins);
+             salary[pos] = salary2ins;
+             x++;
+           }
+
+}
+
+void main()
+{
+    int item = 3;
+    int item_delete = 6;
+    int item_sort = 7;
+    int item_search = 8;
+    int item_lr_sort = 4;
+    int n;
+
+    int x=0;
+    int id[20];
+    char name[amount][20];
+    int salary[20];
+
+    int id2delete;
+    int salary2delete;
+    char name2delete[20];
+    int id2search;
+    char name2search[20];
+    int salary2search;
+
+    int pos;
+    int id2ins;
+    char name2ins[20];
+    int salary2ins;
+
+    LooP:
+    clrscr();
+
+    pf(" ___________________________________________________  \n");
+    pf("|                                                   | \n");
+    pf("| [ ] ADD NEW RECORDS                               | \n");
+    pf("| [ ] INSERT RECORDS                                | \n");
+    pf("| [ ] DELETE RECORDS                                | \n");
+    pf("| [ ] SORT RECORDS                                  | \n");
+    pf("| [ ] SEARCH && UPDATE RECORDS                      | \n");
+    pf("| [ ] SHOW ALL RECORDS                              | \n");
+    pf("| [ ] EXIT                                          | \n");
+    pf("|                                                   | \n");
+    pf("| PRESS <UP> AND <DOWN> TO CHOOSE BETWEEN OPTIONS   | \n");
+    pf("| PRESS <ENTER> TO SELECT AN OPTION                 | \n");
+    pf("|___________________________________________________| \n");
+
+    gotoxy(4,item);
+    pf(">");
+
+    switch(getch())
+    {
+        case 72: if(--item<3) item=9; break;
+        case 80: if(++item>9) item=3; break;
+        case 13:
+            switch(item)
+            {
+                case 3:
+
+                    clrscr();
+                    pf("HOW MANY TIMES OF THE INPUTING?\n");
+                    LooP_inputing:
+
+                    pf("|-> INPUT N: ");
+                    scanf("%d",&n);
+
+                    pf("\n");
+                    inpadd(x,n,id,name,salary);
+                    x = x + n;
+                    pf("DO YOU WANT TO CONTINUE Y|N ?\n");
+                    switch(getch())
+                    {
+                        case 'y':
+                        case 'Y':
+                            pf("HOW MANY MORE TIMES OF THE INPUTING?\n");
+                            goto LooP_inputing;
+                        case 'n':
+                        case 'N': break;
+                    }
+                    break;
+
+               case 4:
+
+                    LooP_insert:
+                    clrscr();
+                    pf(" ______________________ ______________________ ______________________ _____  \n");
+                    pf("|                      |                      |                      |     | \n");
+                    pf("|                   ID |                 NAME |               SALARY | POS | \n");
+                    pf("|______________________|______________________|______________________|_____| \n");
+                    pf("|                      |                      |                      |     | \n");
+                    pf("|                      |                      |                      |     | \n");
+                    pf("|                      |                      |                      |     | \n");
+                    outputins(x,id,name,salary);
+                    pf("\n PRESS <ENTER> KEY TO MAKE AN INSERT \n");
+                    pf("  ELSE   <ANY> KEY TO RETURN \n");
+                    switch(getch())
+                    {
+                      case 13:
+                               pf("\n INPUT ID: ");
+                               scanf("%d",&id2ins);
+
+                               pf("    ID[%d]: \n",id2ins);
+                               pf("       |-> NAME: ");
+                               fflush(stdin);
+                               gets(name2ins);
+
+                               pf("       |-> SALARY: ");
+                               scanf("%d",&salary2ins);
+
+                               pf("       |-> POSITION: ");
+                               scanf("%d",&pos);
+
+                               insert(pos,x,id,id2ins,name,name2ins,salary,salary2ins);
+                               break;
+
+                      default: goto LooP;
+
+                    }goto LooP_insert;
+
+               case 5:
+
+                    LooP_delete:
+                    clrscr();
+                    pf(" ___________________________________________________ \n");
+                    pf("|                                                   |\n");
+                    pf("| [ ] ADD NEW RECORDS                               |\n");
+                    pf("| [ ] INSERT RECORDS                                |\n");
+                    pf("| [>] DELETE RECORDS                                |\n");
+                    pf("|    [ ] BY ID                                      |\n");
+                    pf("|    [ ] BY NAME                                    |\n");
+                    pf("|    [ ] BY SALARY                                  |\n");
+                    pf("|    [ ] RETURN                                     |\n");
+                    pf("| [ ] SORT RECORDS                                  |\n");
+                    pf("| [ ] SEARCH && UPDATE RECORDS                      |\n");
+                    pf("| [ ] SHOW ALL RECORDS                              |\n");
+                    pf("| [ ] EXIT                                          |\n");
+                    pf("|                                                   |\n");
+                    pf("| PRESS <UP> AND <DOWN> TO CHOOSE BETWEEN OPTIONS   |\n");
+                    pf("| PRESS <ENTER> TO SELECT AN OPTION                 |\n");
+                    pf("|___________________________________________________|\n");
+
+                    gotoxy(7,item_delete);
+                    pf(">");
+
+                    switch(getch())
+                    {
+                       case 72: if(--item_delete<6) item_delete = 9; break;
+                       case 80: if(++item_delete>9) item_delete = 6; break;
+                       case 13:
+
+                               switch(item_delete)
+                               {
+                                  case 6:
+                                          LooP_delete_id:
+                                          clrscr();
+                                          pf(" ______________________ ______________________ ______________________  \n");
+                                          pf("|                      |                      |                      | \n");
+                                          pf("|                   ID |                 NAME |               SALARY | \n");
+                                          pf("|______________________|______________________|______________________| \n");
+                                          pf("|                      |                      |                      | \n");
+                                          pf("|                      |                      |                      | \n");
+                                          pf("|                      |                      |                      | \n");
+                                          output(x,id,name,salary);
+
+                                          pf("\n PRESS <ENTER> KEY TO INPUT DELETE \n");
+                                          pf("  ELSE   <ANY> KEY TO RETURN \n");
+
+                                         if(getch()==13)
+                                         {
+                                          pf("\n WHICH ID TO DELETE: ");
+                                          scanf("%d",&id2delete);
+
+                                          deletenumarr(x,id,id2delete,id,name,salary);
+
+                                          goto LooP_delete_id;
+                                         }
+                                         else
+                                          break;
+
+
+                                  case 7:
+
+                                        LooP_delete_name:
+                                          clrscr();
+                                          pf(" ______________________ ______________________ ______________________  \n");
+                                          pf("|                      |                      |                      | \n");
+                                          pf("|                   ID |                 NAME |               SALARY | \n");
+                                          pf("|______________________|______________________|______________________| \n");
+                                          pf("|                      |                      |                      | \n");
+                                          pf("|                      |                      |                      | \n");
+                                          pf("|                      |                      |                      | \n");
+                                          output(x,id,name,salary);
+
+                                          pf("\n PRESS <ENTER> KEY TO INPUT DELETE \n");
+                                          pf("  ELSE   <ANY> KEY TO RETURN \n");
+
+                                         if(getch()==13)
+                                         {
+                                          pf("\n WHICH NAME TO DELETE: ");
+                                          gets(name2delete);
+
+                                          deletechar(x,name,name2delete,id,name,salary);
+
+                                          goto LooP_delete_name;
+                                         }
+                                         else
+                                          break;
+
+                                  case 8:
+
+                                         LooP_delete_salary:
+                                          clrscr();
+                                          pf(" ______________________ ______________________ ______________________  \n");
+                                          pf("|                      |                      |                      | \n");
+                                          pf("|                   ID |                 NAME |               SALARY | \n");
+                                          pf("|______________________|______________________|______________________| \n");
+                                          pf("|                      |                      |                      | \n");
+                                          pf("|                      |                      |                      | \n");
+                                          pf("|                      |                      |                      | \n");
+                                          output(x,id,name,salary);
+
+                                          pf("\n PRESS <ENTER> KEY TO INPUT DELETE \n");
+                                          pf("  ELSE   <ANY> KEY TO RETURN \n");
+
+                                         if(getch()==13)
+                                         {
+                                          pf("\n WHICH SALARY TO DELETE: ");
+                                          scanf("%d",&salary2delete);
+
+                                          deletenumarr(x,salary,salary2delete,id,name,salary);
+
+                                          goto LooP_delete_salary;
+                                         }
+                                         else
+                                          break;
+
+                                  case 9:
+                                          item_delete = 6;
+                                          goto LooP;
+                               }
+                    }goto LooP_delete;
+
+               case 6:
+
+                     LooP_sort:
+                     clrscr();
+                     pf(" ___________________________________________________ \n");
+                     pf("|                                                   |\n");
+                     pf("| [ ] ADD NEW RECORDS                               |\n");
+                     pf("| [ ] INSERT RECORDS                                |\n");
+                     pf("| [ ] DELETE RECORDS                                |\n");
+                     pf("| [>] SORT RECORDS                                  |\n");
+                     pf("|    [ ] BY ASCENDING                               |\n");
+                     pf("|    [ ] BY DESCENDING                              |\n");
+                     pf("|    [ ] RETURN                                     |\n");
+                     pf("| [ ] SEARCH && UPDATE RECORDS                      |\n");
+                     pf("| [ ] SHOW ALL RECORDS                              |\n");
+                     pf("| [ ] EXIT                                          |\n");
+                     pf("|                                                   |\n");
+                     pf("| PRESS <UP> AND <DOWN> TO CHOOSE BETWEEN OPTIONS   |\n");
+                     pf("| PRESS <ENTER> TO SELECT AN OPTION                 |\n");
+                     pf("|___________________________________________________|\n");
+
+                     gotoxy(7,item_sort);
+                     pf(">");
+
+                     switch(getch())
+                     {
+                        case 72: if(--item_sort<7) item_sort = 10; break;
+                        case 80: if(++item_sort>10) item_sort = 7; break;
+                        case 13:
+
+                                switch(item_sort)
+                                {
+                                   case 7:
+                                          Loop_sort_concept:
+                                          clrscr();
+                                          pf(" ______________________ ______________________ ______________________  \n");
+                                          pf("|                      |                      |                      | \n");
+                                          pf("| [ ]               ID | [ ]             NAME | [ ]           SALARY | \n");
+                                          pf("|______________________|______________________|______________________| \n");
+                                          pf("|                      |                      |                      | \n");
+                                          pf("|                      |                      |                      | \n");
+                                          pf("|                      |                      |                      | \n");
+                                          output(x,id,name,salary);
+
+                                          pf("\n PRESS <LEFT> OR <RIGHT> TO CHOOSE BETWEEN OPTIONS\n");
+                                          pf(" PRESS <ENTER> TO SELECT OPTION \n");
+                                          pf(" PRESS <ESC> TO RETURN\n");
+                                          gotoxy(item_lr_sort,3);
+                                          pf("X");
+
+                                          switch(getch())
+                                          {
+                                              case 75: item_lr_sort = item_lr_sort - 23;
+                                                       if(item_lr_sort<4)
+                                                        item_lr_sort = 50;
+                                                       break;
+                                              case 77: item_lr_sort = item_lr_sort + 23;
+                                                       if(item_lr_sort>50)
+                                                        item_lr_sort = 4;
+                                                       break;
+
+                                              case 27:  goto LooP;
+
+                                              case 13:
+                                                        switch(item_lr_sort)
+                                                        {
+                                                            case 4:
+                                                            {
+                                                                 ascendsort_int(x,id,id,name,salary);
+                                                            }
+                                                            break;
+
+                                                            case 27:
+                                                            {
+                                                                 ascendsort_char(x,name,id,name,salary);
+                                                            }
+                                                            break;
+
+                                                            case 50:
+                                                            {
+                                                                  ascendsort_int(x,salary,id,name,salary);
+                                                            }
+                                                            break;
+
+                                                        }
+
+                                              }goto Loop_sort_concept;
+
+
+                                   case 8:
+                                          Loop_sort_concept_two:
+                                          clrscr();
+                                          pf(" ______________________ ______________________ ______________________  \n");
+                                          pf("|                      |                      |                      | \n");
+                                          pf("| [ ]               ID | [ ]             NAME | [ ]           SALARY | \n");
+                                          pf("|______________________|______________________|______________________| \n");
+                                          pf("|                      |                      |                      | \n");
+                                          pf("|                      |                      |                      | \n");
+                                          pf("|                      |                      |                      | \n");
+                                          output(x,id,name,salary);
+
+                                          pf("\n PRESS <LEFT> OR <RIGHT> TO CHOOSE BETWEEN OPTIONS\n");
+                                          pf(" PRESS <ENTER> TO SELECT OPTION \n");
+                                          pf(" PRESS <ESC> TO RETURN\n");
+                                          gotoxy(item_lr_sort,3);
+                                          pf("X");
+
+                                          switch(getch())
+                                          {
+                                              case 75: item_lr_sort = item_lr_sort - 23;
+                                                       if(item_lr_sort<4)
+                                                        item_lr_sort = 50;
+                                                       break;
+                                              case 77: item_lr_sort = item_lr_sort + 23;
+                                                       if(item_lr_sort>50)
+                                                        item_lr_sort = 4;
+                                                       break;
+
+                                              case 27:  goto LooP;
+
+                                              case 13:
+                                                        switch(item_lr_sort)
+                                                        {
+                                                            case 4:
+                                                            {
+                                                                 descendsort_int(x,id,id,name,salary);
+                                                            }
+                                                            break;
+
+                                                            case 27:
+                                                            {
+                                                                 descendsort_char(x,name,id,name,salary);
+                                                            }
+                                                            break;
+
+                                                            case 50:
+                                                            {
+                                                                  descendsort_int(x,salary,id,name,salary);
+                                                            }
+                                                            break;
+
+                                                        }
+
+                                              }goto Loop_sort_concept_two;
+
+                                   case 9:  goto LooP;
+
+                                }
+
+                     }goto LooP_sort;
+
+
+
+               case 7:
+
+                     LooP_search:
+                     clrscr();
+                     pf(" ___________________________________________________ \n");
+                     pf("|                                                   |\n");
+                     pf("| [ ] ADD NEW RECORDS                               |\n");
+                     pf("| [ ] INSERT RECORDS                                |\n");
+                     pf("| [ ] DELETE RECORDS                                |\n");
+                     pf("| [ ] SORT RECORDS                                  |\n");
+                     pf("| [>] SEARCH && UPDATE RECORDS                      |\n");
+                     pf("|    [ ] BY ID                                      |\n");
+                     pf("|    [ ] BY NAME                                    |\n");
+                     pf("|    [ ] BY SALARY                                  |\n");
+                     pf("|    [ ] RETURN                                     |\n");
+                     pf("| [ ] SHOW ALL RECORDS                              |\n");
+                     pf("| [ ] EXIT                                          |\n");
+                     pf("|                                                   |\n");
+                     pf("| PRESS <UP> AND <DOWN> TO CHOOSE BETWEEN OPTIONS   |\n");
+                     pf("| PRESS <ENTER> TO SELECT AN OPTION                 |\n");
+                     pf("|___________________________________________________|\n");
+
+                     gotoxy(7,item_search);
+                     pf(">");
+
+                     switch(getch())
+                     {
+                        case 72: if(--item_search<8)  item_search = 11; break;
+                        case 80: if(++item_search>11) item_search = 8;  break;
+                        case 13:
+
+                                switch(item_search)
+                                {
+                                   case 8:
+                                           LooP_search_id:
+                                           clrscr();
+                                           pf(" ______________________ ______________________ ______________________  \n");
+                                           pf("|                      |                      |                      | \n");
+                                           pf("|                   ID |                 NAME |               SALARY | \n");
+                                           pf("|______________________|______________________|______________________| \n");
+                                           pf("|                      |                      |                      | \n");
+                                           pf("|                      |                      |                      | \n");
+                                           pf("|                      |                      |                      | \n");
+                                           output(x,id,name,salary);
+                                           pf("\n PRESS <ENTER> KEY TO INPUT SEARCH \n");
+                                           pf("  ELSE   <ANY> KEY TO RETURN \n");
+
+                                           if(getch()==13)
+                                           {
+                                              pf("\n WHICH ID TO CHOOSE: ");
+                                              scanf("%d",&id2search);
+
+                                              updateid(x,id,id2search,name,salary);
+
+                                              goto LooP_search_id;
+                                           }
+                                          else
+                                           break;
+
+                                   case 9:
+
+                                          LooP_search_name:
+                                           clrscr();
+                                           pf(" ______________________ ______________________ ______________________  \n");
+                                           pf("|                      |                      |                      | \n");
+                                           pf("|                   ID |                 NAME |               SALARY | \n");
+                                           pf("|______________________|______________________|______________________| \n");
+                                           pf("|                      |                      |                      | \n");
+                                           pf("|                      |                      |                      | \n");
+                                           pf("|                      |                      |                      | \n");
+                                           output(x,id,name,salary);
+                                           pf("\n PRESS <ENTER> KEY TO INPUT SEARCH \n");
+                                           pf("  ELSE   <ANY> KEY TO RETURN \n");
+
+                                           if(getch()==13)
+                                           {
+                                              pf("\n WHICH NAME TO CHOOSE: ");
+                                              gets(name2search);
+
+                                              updatename(x,name,name2search,id,salary);
+
+                                              goto LooP_search_name;
+                                           }
+                                          else
+                                           break;
+
+                                   case 10:
+
+                                          LooP_search_salary:
+                                           clrscr();
+                                           pf(" ______________________ ______________________ ______________________  \n");
+                                           pf("|                      |                      |                      | \n");
+                                           pf("|                   ID |                 NAME |               SALARY | \n");
+                                           pf("|______________________|______________________|______________________| \n");
+                                           pf("|                      |                      |                      | \n");
+                                           pf("|                      |                      |                      | \n");
+                                           pf("|                      |                      |                      | \n");
+                                           output(x,id,name,salary);
+                                           pf("\n PRESS <ENTER> KEY TO INPUT SEARCH \n");
+                                           pf("  ELSE   <ANY> KEY TO RETURN \n");
+
+                                           if(getch()==13)
+                                           {
+                                              pf("\n WHICH SALARY TO CHOOSE: ");
+                                              scanf("%d",&salary2search);
+
+                                              updatesalary(x,salary,salary2search,id,name);
+
+                                              goto LooP_search_salary;
+                                           }
+                                          else
+                                           break;
+
+
+                                   case 11:
+                                            item_search = 8;
+                                            goto LooP;
+
+                                }
+
+                     }goto LooP_search;
+
+               case 8:
+
+                    clrscr();
+                    pf(" ______________________ ______________________ ______________________  \n");
+                    pf("|                      |                      |                      | \n");
+                    pf("|                   ID |                 NAME |               SALARY | \n");
+                    pf("|______________________|______________________|______________________| \n");
+                    pf("|                      |                      |                      | \n");
+                    pf("|                      |                      |                      | \n");
+                    pf("|                      |                      |                      | \n");
+                    output(x,id,name,salary);
+
+                    getch();
+                    break;
+               case 9: exit(0);
+
+            } break;
+    }
+    goto LooP;
+
+}
