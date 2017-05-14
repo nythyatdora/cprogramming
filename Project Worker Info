@@ -53,8 +53,8 @@ void output(int x,int id[],char name[][amount],int salary[])
           gotoxy(8,6+i);
           pf("%15d",id[i]);
 
-          gotoxy(31,6+i);
-          pf("%15s",name[i]);
+          gotoxy(26,6+i);
+          pf("%20s",name[i]);
 
           gotoxy(54,6+i);
           pf("%15d",salary[i]);
@@ -287,8 +287,8 @@ void outputins(int x,int id[],char name[][amount],int salary[])
           gotoxy(8,6+i);
           pf("%15d",id[i]);
 
-          gotoxy(31,6+i);
-          pf("%15s",name[i]);
+          gotoxy(26,6+i);
+          pf("%20s",name[i]);
 
           gotoxy(54,6+i);
           pf("%15d",salary[i]);
